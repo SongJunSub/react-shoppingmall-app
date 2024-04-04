@@ -5,6 +5,7 @@ import simpleData from "./sampleData";
 import {Link, Outlet, Route, Routes, useNavigate} from "react-router-dom";
 import Detail from "./routes/Detail";
 import axios from "axios";
+import Cart from "./routes/Cart";
 
 export const Context1 = createContext();
 
@@ -21,6 +22,7 @@ function App(){
                     <Navbar.Brand onClick={() => {navigate("/")}}>Jun's Shopping Mall</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => {navigate("/detail")}}>Detail</Nav.Link>
+                        <Nav.Link onClick={() => {navigate("/cart")}}>Cart</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
@@ -58,9 +60,11 @@ function App(){
                 }/>
 
                 <Route path="/detail/:id" element={
-                    <Context1.Provider value={{inventory}}>
-                        <Detail shoes={shoes}/>
-                    </Context1.Provider>
+                    <Detail shoes={shoes}/>
+                }/>
+
+                <Route path="/cart" element={
+                    <Cart/>
                 }/>
             </Routes>
         </div>

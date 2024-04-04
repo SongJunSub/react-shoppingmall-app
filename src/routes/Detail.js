@@ -1,11 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import {Context1} from "../App";
 
 const Detail = (props) => {
-
-    const {inventory} = useContext(Context1);
 
     const {id} = useParams();
     const data = props.shoes.find(x => x.id === id);
