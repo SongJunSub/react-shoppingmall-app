@@ -38,8 +38,14 @@ function App(){
                                 }
                             </Row>
                         </Container>
+
+                        <button onClick={() => {
+
+                        }}>Button
+                        </button>
                     </>
                 }/>
+
                 <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
             </Routes>
         </div>
