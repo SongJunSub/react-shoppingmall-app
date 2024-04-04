@@ -2,37 +2,46 @@ import './App.css';
 import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
 import React, {useState} from "react";
 import simpleData from "./sampleData";
+import {Link, Outlet, Route, Routes, useNavigate} from "react-router-dom";
+import Detail from "./routes/Detail";
 
 function App(){
 
     const [shoes] = useState(simpleData);
+    const navigate = useNavigate();
 
     return (
         <div className="App">
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container>
-                    <Navbar.Brand href="#home">Jun's Shopping Mall</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {navigate("/")}}>Jun's Shopping Mall</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Cart</Nav.Link>
+                        <Nav.Link onClick={() => {navigate("/detail")}}>Detail</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
 
-            <div className="main-backgroundImage"></div>
-            <br/>
+            <Routes>
+                <Route path="/" element={
+                    <>
+                        <div className="main-backgroundImage"></div>
+                        <br/>
 
-            <Container>
-                <Row>
-                    {
-                        shoes.map((data, i) => {
-                            return (
-                                <Card shoes={shoes[i]} i={i}/>
-                            )
-                        })
-                    }
-                </Row>
-            </Container>
+                        <Container>
+                            <Row>
+                                {
+                                    shoes.map((data, i) => {
+                                        return (
+                                            <Card shoes={shoes[i]} i={i}/>
+                                        )
+                                    })
+                                }
+                            </Row>
+                        </Container>
+                    </>
+                }/>
+                <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
+            </Routes>
         </div>
     );
 
