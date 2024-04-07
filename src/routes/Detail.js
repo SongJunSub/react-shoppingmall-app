@@ -1,6 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Nav} from "react-bootstrap";
+import {useDispatch} from "react-redux";
+import {addItem} from "../store";
 
 const Detail = (props) => {
 
@@ -9,6 +11,7 @@ const Detail = (props) => {
     const [count, setCount] = useState(0);
     const [alert, setAlert] = useState(true);
     const [tab, setTab] = useState(0);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const timeout = setTimeout(() => {setAlert(false)}, 2000);
@@ -35,7 +38,9 @@ const Detail = (props) => {
                     <h4 className="pt-5">{props.shoes[id].title}</h4>
                     <p>{props.shoes[id].content}</p>
                     <p>{props.shoes[id].price}</p>
-                    <button className="btn btn-danger">Order</button>
+                    <button className="btn btn-danger" onClick={() => {
+                        dispatch(addItem({id: 1, name: "Red Knit", count: 1}));
+                    }}>Order</button>
                 </div>
             </div>
 
