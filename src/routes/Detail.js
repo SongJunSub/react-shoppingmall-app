@@ -7,11 +7,20 @@ import {addItem} from "../store";
 const Detail = (props) => {
 
     const {id} = useParams();
-    const data = props.shoes.find(x => x.id === id);
+    const data = props.shoes.find(x => x.id == id);
     const [count, setCount] = useState(0);
     const [alert, setAlert] = useState(true);
     const [tab, setTab] = useState(0);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        let watchedData = localStorage.getItem("watched");
+        watchedData = JSON.parse(watchedData);
+        watchedData.push(data.id);
+        watchedData = new Set(watchedData);
+        watchedData = Array.from(watchedData);
+        localStorage.setItem("watched", JSON.stringify(watchedData));
+    }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => {setAlert(false)}, 2000);

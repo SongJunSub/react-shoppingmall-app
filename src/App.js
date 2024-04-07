@@ -1,6 +1,6 @@
 import './App.css';
 import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import simpleData from "./sampleData";
 import {Link, Outlet, Route, Routes, useNavigate} from "react-router-dom";
 import Detail from "./routes/Detail";
@@ -10,6 +10,15 @@ import Cart from "./routes/Cart";
 export const Context1 = createContext();
 
 function App(){
+
+    /*const object = {name: "kim"};
+    localStorage.setItem("data", JSON.stringify(object));
+    const result = localStorage.getItem("data");
+    const parsedResult = JSON.parse(result).name;*/
+
+    /*useEffect(() => {
+        localStorage.setItem("watched", JSON.stringify([]));
+    }, []);*/
 
     const [shoes, setShoes] = useState(simpleData);
     const navigate = useNavigate();
@@ -34,7 +43,7 @@ function App(){
                         <br/>
 
                         <Container>
-
+                            <Row>
                                 {
                                     shoes.map((data, i) => {
                                         return (
@@ -42,7 +51,7 @@ function App(){
                                         )
                                     })
                                 }
-
+                            </Row>
                         </Container>
 
                         <button onClick={() => {
@@ -75,13 +84,11 @@ function App(){
 const Card = (props) => {
 
     return (
-        <Row>
-            <Col>
-                <img src={props.shoes.image} alt="img" width="80%" height="80%"/>
-                <h5>{props.shoes.title}</h5>
-                <p>{props.shoes.price}</p>
-            </Col>
-        </Row>
+        <Col>
+            <img src={props.shoes.image} alt="img" width="80%" height="80%"/>
+            <h5>{props.shoes.title}</h5>
+            <p>{props.shoes.price}</p>
+        </Col>
     )
 
 }
