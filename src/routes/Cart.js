@@ -2,6 +2,13 @@ import {Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {changeName, increaseAge} from "../store/UserSlice";
 import {addCount} from "../store";
+import {memo, useState} from "react";
+
+const memoFunction = () => {
+
+
+
+}
 
 const Cart = () => {
 

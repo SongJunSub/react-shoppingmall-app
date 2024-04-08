@@ -1,12 +1,16 @@
 import './App.css';
 import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, lazy, Suspense, useEffect, useState} from "react";
 import simpleData from "./sampleData";
 import {Link, Outlet, Route, Routes, useNavigate} from "react-router-dom";
-import Detail from "./routes/Detail";
-import axios from "axios";
-import Cart from "./routes/Cart";
 import {useQuery} from "react-query";
+import axios from "axios";
+import UseTransition from "./routes/UseTransition";
+//import Cart from "./routes/Cart";
+//import Detail from "./routes/Detail";
+
+const Detail = lazy(() => import("./routes/Detail"));
+const Cart = lazy(() => import("./routes/Cart"));
 
 export const Context1 = createContext();
 
@@ -40,6 +44,7 @@ function App(){
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => {navigate("/detail")}}>Detail</Nav.Link>
                         <Nav.Link onClick={() => {navigate("/cart")}}>Cart</Nav.Link>
+                        <Nav.Link onClick={() => {navigate("/usetransition")}}>Use Transition</Nav.Link>
                     </Nav>
                     <Nav className="me-auto">
                         {userData.isLoading && "Loading..."}
@@ -48,46 +53,52 @@ function App(){
                 </Container>
             </Navbar>
 
-            <Routes>
-                <Route path="/" element={
-                    <>
-                        <div className="main-backgroundImage"></div>
-                        <br/>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                    <Route path="/" element={
+                        <>
+                            <div className="main-backgroundImage"></div>
+                            <br/>
 
-                        <Container>
-                            <Row>
-                                {
-                                    shoes.map((data, i) => {
-                                        return (
-                                            <Card shoes={shoes[i]} i={i}/>
-                                        )
+                            <Container>
+                                <Row>
+                                    {
+                                        shoes.map((data, i) => {
+                                            return (
+                                                <Card shoes={shoes[i]} i={i}/>
+                                            )
+                                        })
+                                    }
+                                </Row>
+                            </Container>
+
+                            <button onClick={() => {
+                                axios.get("https://codingapple1.github.io/shop/data2.json")
+                                    .then((result) => {
+                                        const copy = [...shoes, ...result.data];
+
+                                        setShoes(copy);
                                     })
-                                }
-                            </Row>
-                        </Container>
+                                    .catch(() => {
+                                        console.log("Error");
+                                    })
+                            }}>더보기</button>
+                        </>
+                    }/>
 
-                        <button onClick={() => {
-                            axios.get("https://codingapple1.github.io/shop/data2.json")
-                                .then((result) => {
-                                    const copy = [...shoes, ...result.data];
+                    <Route path="/detail/:id" element={
+                        <Detail shoes={shoes}/>
+                    }/>
 
-                                    setShoes(copy);
-                                })
-                                .catch(() => {
-                                    console.log("Error");
-                                })
-                        }}>더보기</button>
-                    </>
-                }/>
+                    <Route path="/cart" element={
+                        <Cart/>
+                    }/>
 
-                <Route path="/detail/:id" element={
-                    <Detail shoes={shoes}/>
-                }/>
-
-                <Route path="/cart" element={
-                    <Cart/>
-                }/>
-            </Routes>
+                    <Route path="/usetransition" element={
+                        <UseTransition/>
+                    }/>
+                </Routes>
+            </Suspense>
         </div>
     );
 
